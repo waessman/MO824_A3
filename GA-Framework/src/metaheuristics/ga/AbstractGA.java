@@ -57,7 +57,7 @@ public abstract class AbstractGA<G extends Number, F> {
 	/**
 	 * maximum number of generations being executed
 	 */
-	protected int generations;
+	protected int timeToRun;
 
 	/**
 	 * the size of the population
@@ -150,9 +150,9 @@ public abstract class AbstractGA<G extends Number, F> {
 	 * @param mutationRate
 	 *            The mutation rate.
 	 */
-	public AbstractGA(Evaluator<F> objFunction, Integer generations, Integer popSize, Double mutationRate) {
+	public AbstractGA(Evaluator<F> objFunction, Integer timeToRun, Integer popSize, Double mutationRate) {
 		this.ObjFunction = objFunction;
-		this.generations = generations;
+		this.timeToRun = timeToRun;
 		this.popSize = popSize;
 		this.chromosomeSize = this.ObjFunction.getDomainSize();
 		this.mutationRate = mutationRate;
@@ -180,8 +180,11 @@ public abstract class AbstractGA<G extends Number, F> {
 		/*
 		 * enters the main loop and repeats until a given number of generations
 		 */
-		for (int g = 1; g <= generations; g++) {
-
+		long startTime = System.currentTimeMillis();
+        long endTime = startTime + timeToRun;
+		for (int g = 1; true; g++) {
+			if (System.currentTimeMillis() > endTime)
+                break;
 			Population parents = selectParents(population);
 
 			Population offsprings = uniformCrossover(parents, 0.5);
