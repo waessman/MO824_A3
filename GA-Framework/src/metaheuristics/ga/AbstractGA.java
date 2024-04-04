@@ -1,6 +1,9 @@
 package metaheuristics.ga;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.Random;
 
 import problems.Evaluator;
@@ -171,7 +174,8 @@ public abstract class AbstractGA<G extends Number, F> {
 	public Solution<F> solve() {
 
 		/* starts the initial population */
-		population = initializePopulation();
+		//population = initializePopulation();
+		population = initializePopulationLatinHypercube();
 
 		bestChromosome = getBestChromosome(population);
 		bestSol = decode(bestChromosome);
@@ -225,6 +229,8 @@ public abstract class AbstractGA<G extends Number, F> {
 		return population;
 
 	}
+	
+	protected abstract Population initializePopulationLatinHypercube();
 
 	/**
 	 * Given a population of chromosome, takes the best chromosome according to
@@ -414,8 +420,8 @@ public abstract class AbstractGA<G extends Number, F> {
 	 * @param parents
 	 *            The selected parents for crossover.
 	 * @param p
-	 * 			  O parâmetro de "Viés" acima de determinado pai, sendo:
-	 * 0.5 = completamente aleatório
+	 * 			  O parï¿½metro de "Viï¿½s" acima de determinado pai, sendo:
+	 * 0.5 = completamente aleatï¿½rio
 	 * < 0.5 tende ao parent1
 	 * > 0.5 tende ao parent2
 	 *

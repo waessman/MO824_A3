@@ -2,9 +2,12 @@ package problems.qbf.solvers;
 
 import java.io.IOException;
 import metaheuristics.ga.AbstractGA;
+import metaheuristics.ga.AbstractGA.Chromosome;
+import metaheuristics.ga.AbstractGA.Population;
 import problems.qbf.QBF;
 import solutions.Solution;
 import java.util.Collections;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 /**
@@ -88,7 +91,7 @@ public class GA_QBF extends AbstractGA<Integer, Integer> {
 		
 		int currentPeso = 0;
 		
-		//Gera lista aleatória para não ficar tendendo a pegar sempre os primeiros
+		//Gera lista aleatï¿½ria para nï¿½o ficar tendendo a pegar sempre os primeiros
 		Integer[] possiveis = new Integer[chromosomeSize];
 		Integer[] chromosomoTemp = new Integer[chromosomeSize];
 		
@@ -125,6 +128,33 @@ public class GA_QBF extends AbstractGA<Integer, Integer> {
 		}
 
 		return chromosome;
+	}
+	
+	@Override
+	protected Population initializePopulationLatinHypercube() {
+
+		Population population = new Population();
+		ArrayList<Chromosome> cList = new ArrayList<Chromosome>(popSize);
+		ArrayList<Integer> column = new ArrayList<Integer>(Collections.nCopies(popSize, 0));
+		
+		for(int i = 0; i < popSize; i++) {
+			column.set(i, i % 2);
+			cList.add(new Chromosome());
+		}
+
+		for(int i = 0; i < chromosomeSize; i++) {
+			Collections.shuffle(column);
+			for(int j = 0; j < popSize; j++) {
+				cList.get(j).add(column.get(j));
+			}
+		}
+		
+		for(Chromosome c : cList) {
+			population.add(c);
+		}
+
+		return population;
+
 	}
 
 	/*
