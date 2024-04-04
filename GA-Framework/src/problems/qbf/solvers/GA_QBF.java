@@ -150,12 +150,34 @@ public class GA_QBF extends AbstractGA<Integer, Integer> {
 		}
 		
 		for(Chromosome c : cList) {
+			makeCromosomeFeasible(c);
 			population.add(c);
 		}
 
 		return population;
 
 	}
+	
+	// if a chromosome violates the knapsack restriction, remove random items from it until it is feasible
+	protected Chromosome makeCromosomeFeasible(Chromosome c) {
+		Integer pesoMaximo = ObjFunction.getPesoMax();
+		while(ObjFunction.solutionWeight(decode(c)) > pesoMaximo) {
+			removeRandomElementFromChromosome(c);
+		}
+		return c;
+	}
+	
+	protected Chromosome removeRandomElementFromChromosome(Chromosome c) {
+		ArrayList<Integer> currentElements = new ArrayList<Integer>();
+		for(int i = 0; i < c.size(); i++) {
+			if(c.get(i) == 1) {
+				currentElements.add(i);
+			}
+		}
+		c.set(currentElements.get(rng.nextInt(currentElements.size())), 0);
+		return c;
+	}
+	
 
 	/*
 	 * (non-Javadoc)

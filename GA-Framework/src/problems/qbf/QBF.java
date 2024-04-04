@@ -286,6 +286,19 @@ public class QBF implements Evaluator<Integer> {
 
 		return sum;
 	}
+	
+	@Override
+	public Double solutionWeight(Solution<Integer> sol) {
+		setVariables(sol);
+		Double totalWeight = 0.0;
+		for (int i = 0; i < size; i++) {
+			if(variables[i] == 1) {
+				totalWeight += pesos[i];				
+			}
+		}
+		
+		return totalWeight;
+	}
 
 	/**
 	 * Responsible for setting the QBF function parameters by reading the
@@ -328,7 +341,7 @@ public class QBF implements Evaluator<Integer> {
 			}
 		}
 		
-		System.out.println("Peso máximo = "+pesoMax);
+		System.out.println("Peso mï¿½ximo = "+pesoMax);
 
 /*		System.out.println("Printando matriz :D");
 		
@@ -337,7 +350,7 @@ public class QBF implements Evaluator<Integer> {
             for (int j = 0; j < A[i].length; j++) {
                 System.out.print(A[i][j] + " ");
             }
-            System.out.println(); // Para mover para a próxima linha
+            System.out.println(); // Para mover para a prï¿½xima linha
         }
 		
         System.out.println("FIM, agora pesos");
